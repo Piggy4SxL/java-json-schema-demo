@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatie.org//DTD Mapper 3.0//EN"
+        "http://mybatie.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sxl.sbm.dao.ExampleDao">
+    <resultMap id="ExampleMap" type="com.sxl.sbm.entity.Example">
+        <id column="example_id" property="exampleId"/>
+        <result column="example_name" property="exampleName"/>
+        <association property="servletName" column="servlet_id" javaType="com.sxl.sbm.entity.ServletName">
+            <id column="servlet_id" property="servletId"/>
+            <result column="servlet_name" property="servletName"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertExample" parameterType="com.sxl.sbm.entity.Example" useGeneratedKeys="true" keyColumn="example_id"
+            keyProperty="exampleId">
+        INSERT INTO
+        tb_example(example_id, example_name, servlet_name)
+        VALUES (#{exampleId}, #{exampleName}, #{servletName.servletName})
+    </insert>
+
+    <update id="updateExample" parameterType="com.sxl.sbm.entity.Example">
+        UPDATE tb_example
+        <set>
+            <if test="servletName != null">servlet_name = #{servletName.servletName},</if>
+            <if test="exampleName != null">example_name = #{exampleName},</if>
+        </set>
+        WHERE example_id = #{exampleId}
+    </update>
+
+    <select id="getExampleById" resultMap="exampleMap" parameterType="long">
+        SELECT
+        e.example_id,
+        e.example_name
+        FROM
+        tb_example e
+        WHERE
+        e.shop_id = #{shopId}
+    </select>
+
+    <select id="listExampleList" resultMap="exampleMap">
+        SELECT
+        e.example_id,
+        e.example_name,
+        FROM
+        tb_example e
+        <where>
+            <if test="exampleCondition.exampleName != null">
+                AND e.example_category_id = #{exampleCondition.exampleCategory.exampleCategoryId}
+            </if>
+        </where>
+        ORDER BY
+        priority DESC
+        LIMIT #{rowIndex}, #{pageSize}
+    </select>
+
+</mapper>

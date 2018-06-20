@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type" : "object",
+  "properties" : {
+    "rectangle" : {"$ref" : "#/definitions/Rectangle" },
+    "id": {
+      "type": "number",
+      "multipleOf": 2,
+      "maximum" : 100,
+      "minimum" : 1,
+      "readOnly": true
+    },
+    "name" : {
+      "type" : "string",
+      "maxLength" : 100,
+      "minLength" : 1,
+      "pattern" : "dd"
+    },
+    "hobby" : {
+      "type" : "array",
+      "items" : {
+        "hobby" : ["Swimming", "Football"]
+      },
+      "maxItems" : 10,
+      "minItems" : 1,
+      "uniqueItems" : true,
+      "contains" : {
+       "hobby" : "Football"
+      }
+    }
+  },
+  "definitions" : {
+    "size" : {
+      "type" : "number",
+      "minimum" : 0
+    },
+    "Rectangle" : {
+      "type" : "object",
+      "maxProperties" : 2,
+      "minProperties" : 1,
+      "required" : ["a", "b"],
+      "properties" : {
+        "a" : {"$ref" : "#/definitions/size"},
+        "b" : {"$ref" : "#/definitions/size"},
+        "evenChar" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
