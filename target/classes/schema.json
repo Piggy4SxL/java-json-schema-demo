@@ -19,14 +19,30 @@
     "hobby" : {
       "type" : "array",
       "items" : {
-        "hobby" : ["Swimming", "Football"]
+        "type" : "string"
       },
       "maxItems" : 10,
       "minItems" : 1,
       "uniqueItems" : true,
       "contains" : {
-       "hobby" : "Football"
+        "type": "string"
       }
+    },
+    "date" : {
+      "type" : "string",
+      "format" : "date"
+    },
+    "time" : {
+      "type" : "string",
+      "format" : "time"
+    },
+    "dateTime" : {
+      "type" : "string",
+      "format" : "date-time"
+    },
+    "email" : {
+      "type" : "string",
+      "format" : "email"
     }
   },
   "definitions" : {
